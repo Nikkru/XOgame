@@ -161,7 +161,8 @@ final class GameMainView: UIView {
             gameboardView.topAnchor.constraint(equalTo: winnerLabel.bottomAnchor, constant: 20),
             gameboardView.leftAnchor.constraint(equalTo: self.leftAnchor, constant: 20),
             gameboardView.rightAnchor.constraint(equalTo: self.rightAnchor, constant: -20),
-            gameboardView.bottomAnchor.constraint(equalTo: self.restartButton.topAnchor, constant: -40)
+            gameboardView.heightAnchor.constraint(equalTo: gameboardView.widthAnchor),
+            gameboardView.bottomAnchor.constraint(lessThanOrEqualTo: restartButton.topAnchor, constant: -20)
         ])
     }
 }
