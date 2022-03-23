@@ -111,6 +111,8 @@ final class GameMainView: UIView {
         setRestartButtonConstraints()
     }
     
+//    MARK: - Настраиваем констрейнты
+    
     private func setFirstPlayerTurnLabelConstraints() {
         
         firstPlayerTurnLabel.translatesAutoresizingMaskIntoConstraints = false
