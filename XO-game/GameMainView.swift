@@ -17,7 +17,7 @@ final class GameMainView: UIView {
     //    MARK: - LifeCycle
     override init(frame: CGRect) {
         super.init(frame: frame)
-        self.backgroundColor = .black
+        self.backgroundColor = .white
                 setupViews()
                 setupConstraints()
         //        addActions()
@@ -29,6 +29,7 @@ final class GameMainView: UIView {
     
     var restartButton: UIButton = {
         let button = UIButton()
+        button.setTitle("restart", for: .normal)
         button.setTitleColor((.white), for: .normal)
         button.backgroundColor = .darkGray
         button.titleLabel?.font = UIFont(name: "restart", size: 100)
@@ -38,14 +39,14 @@ final class GameMainView: UIView {
     
     var firstPlayerTurnLabel: UILabel = {
         let label = UILabel()
-        //        label.text            = ""
+        label.text                      = "first player"
         label.font                      = UIFont.systemFont(ofSize: 20)
         label.textAlignment             = .center
         label.numberOfLines             = 0
         label.adjustsFontSizeToFitWidth = true
-        label.textColor                 = .white
+        label.textColor                 = .black
         if #available(iOS 13.0, *) {
-            label.backgroundColor       = .link
+            label.backgroundColor       = .systemBackground
         } else {
             label.backgroundColor       = .lightGray
         }
@@ -56,14 +57,14 @@ final class GameMainView: UIView {
     
     var secondPlayerTurnLabel: UILabel = {
         let label = UILabel()
-        //        label.text            = ""
+        label.text                      = "second player"
         label.font                      = UIFont.systemFont(ofSize: 20)
         label.textAlignment             = .center
         label.numberOfLines             = 0
         label.adjustsFontSizeToFitWidth = true
-        label.textColor                 = .white
+        label.textColor                 = .black
         if #available(iOS 13.0, *) {
-            label.backgroundColor       = .link
+            label.backgroundColor       = .systemBackground
         } else {
             label.backgroundColor       = .lightGray
         }
@@ -74,14 +75,14 @@ final class GameMainView: UIView {
     
     var winnerLabel: UILabel = {
         let label = UILabel()
-        //        label.text            = ""
+        label.text                      = "winner"
         label.font                      = UIFont.systemFont(ofSize: 20)
         label.textAlignment             = .center
         label.numberOfLines             = 0
         label.adjustsFontSizeToFitWidth = true
-        label.textColor                 = .white
+        label.textColor                 = .black
         if #available(iOS 13.0, *) {
-            label.backgroundColor       = .link
+            label.backgroundColor       = .systemBackground
         } else {
             label.backgroundColor       = .lightGray
         }
@@ -125,20 +126,20 @@ final class GameMainView: UIView {
     
     private func setSecondPlayerTurnLabelConstraints() {
         
-        firstPlayerTurnLabel.translatesAutoresizingMaskIntoConstraints = false
+        secondPlayerTurnLabel.translatesAutoresizingMaskIntoConstraints = false
         NSLayoutConstraint.activate([
-            firstPlayerTurnLabel.topAnchor.constraint(equalTo: layoutMarginsGuide.topAnchor, constant: 40),
-            firstPlayerTurnLabel.rightAnchor.constraint(lessThanOrEqualTo: self.leftAnchor, constant: -40),
-            firstPlayerTurnLabel.leftAnchor.constraint(equalTo: self.centerXAnchor, constant: 15),
+            secondPlayerTurnLabel.topAnchor.constraint(equalTo: layoutMarginsGuide.topAnchor, constant: 40),
+            secondPlayerTurnLabel.rightAnchor.constraint(lessThanOrEqualTo: self.rightAnchor, constant: -40),
+            secondPlayerTurnLabel.leftAnchor.constraint(equalTo: self.centerXAnchor, constant: 15),
         ])
     }
     
     private func setWinnerLabelConstraints() {
         
-        firstPlayerTurnLabel.translatesAutoresizingMaskIntoConstraints = false
+        winnerLabel.translatesAutoresizingMaskIntoConstraints = false
         NSLayoutConstraint.activate([
-            firstPlayerTurnLabel.centerXAnchor.constraint(equalTo: self.centerXAnchor),
-            firstPlayerTurnLabel.topAnchor.constraint(equalTo: firstPlayerTurnLabel.bottomAnchor, constant: 20),
+            winnerLabel.centerXAnchor.constraint(equalTo: self.centerXAnchor),
+            winnerLabel.topAnchor.constraint(equalTo: firstPlayerTurnLabel.bottomAnchor, constant: 20),
         ])
     }
     
@@ -156,10 +157,11 @@ final class GameMainView: UIView {
         
         gameboardView.translatesAutoresizingMaskIntoConstraints = false
         NSLayoutConstraint.activate([
+            
             gameboardView.topAnchor.constraint(equalTo: winnerLabel.bottomAnchor, constant: 20),
             gameboardView.leftAnchor.constraint(equalTo: self.leftAnchor, constant: 20),
             gameboardView.rightAnchor.constraint(equalTo: self.rightAnchor, constant: -20),
-            gameboardView.bottomAnchor.constraint(equalTo: self.restartButton.bottomAnchor, constant: -40)
+            gameboardView.bottomAnchor.constraint(equalTo: self.restartButton.topAnchor, constant: -40)
         ])
     }
 }
