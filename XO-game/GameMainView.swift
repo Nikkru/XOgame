@@ -10,7 +10,7 @@ import UIKit
 
 final class GameMainView: UIView {
     
-    //    Clogure
+    //    Clogure для добавления target во viewController
     var onAddRestartButtonAction: (() -> Void)?
 
     
