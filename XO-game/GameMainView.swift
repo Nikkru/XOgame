@@ -18,8 +18,9 @@ final class GameMainView: UIView {
     override init(frame: CGRect) {
         super.init(frame: frame)
         self.backgroundColor = .white
-                setupViews()
-                setupConstraints()
+        setupViews()
+        setupConstraints()
+        
         //        addActions()
     }
     
@@ -93,8 +94,16 @@ final class GameMainView: UIView {
     
     var gameboardView: GameboardView = {
         let view = GameboardView()
+
         return view
     }()
+    
+    func setupGameboardView() {
+        gameboardView.onSelectPosition = { [weak self] position in
+            guard let self = self else { return }
+            self.gameboardView.placeMarkView(XView(), at: position)
+        }
+    }
     
     private func setupViews() {
         addSubview(winnerLabel)
@@ -161,7 +170,8 @@ final class GameMainView: UIView {
             gameboardView.topAnchor.constraint(equalTo: winnerLabel.bottomAnchor, constant: 20),
             gameboardView.leftAnchor.constraint(equalTo: self.leftAnchor, constant: 20),
             gameboardView.rightAnchor.constraint(equalTo: self.rightAnchor, constant: -20),
-            gameboardView.bottomAnchor.constraint(equalTo: self.restartButton.topAnchor, constant: -40)
+            gameboardView.heightAnchor.constraint(equalTo: gameboardView.widthAnchor),
+            gameboardView.bottomAnchor.constraint(lessThanOrEqualTo: restartButton.topAnchor, constant: -20)
         ])
     }
 }

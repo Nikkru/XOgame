@@ -16,13 +16,18 @@ class StartViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        mainView.gameboardView.onSelectPosition = { [weak self] position in
-            guard let self = self else { return }
-            self.mainView.gameboardView.placeMarkView(XView(), at: position)
-        }
+
+    }
+    
+    override func viewWillAppear(_ animated: Bool) {
+        
     }
 
     override func loadView() {
         self.view = GameMainView(frame: UIScreen.main.bounds)
+        mainView.gameboardView.onSelectPosition = { [weak self] position in
+            guard let self = self else { return }
+            self.mainView.gameboardView.placeMarkView(XView(), at: position)
+        }
     }
 }
