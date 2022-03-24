@@ -94,7 +94,11 @@ final class GameMainView: UIView {
     
     var gameboardView: GameboardView = {
         let view = GameboardView()
-
+        if #available(iOS 13.0, *) {
+            view.backgroundColor = .systemBackground
+        } else {
+            view.backgroundColor = .white
+        }
         return view
     }()
     
