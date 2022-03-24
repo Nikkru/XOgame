@@ -10,7 +10,7 @@ import UIKit
 
 final class GameMainView: UIView {
     
-    //    Clogure
+    //    Clogure для добавления target во viewController
     var onAddRestartButtonAction: (() -> Void)?
 
     
@@ -18,8 +18,9 @@ final class GameMainView: UIView {
     override init(frame: CGRect) {
         super.init(frame: frame)
         self.backgroundColor = .white
-                setupViews()
-                setupConstraints()
+        setupViews()
+        setupConstraints()
+        
         //        addActions()
     }
     
@@ -93,8 +94,20 @@ final class GameMainView: UIView {
     
     var gameboardView: GameboardView = {
         let view = GameboardView()
+        if #available(iOS 13.0, *) {
+            view.backgroundColor = .systemBackground
+        } else {
+            view.backgroundColor = .white
+        }
         return view
     }()
+    
+    func setupGameboardView() {
+        gameboardView.onSelectPosition = { [weak self] position in
+            guard let self = self else { return }
+            self.gameboardView.placeMarkView(XView(), at: position)
+        }
+    }
     
     private func setupViews() {
         addSubview(winnerLabel)
