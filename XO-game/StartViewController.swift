@@ -21,13 +21,9 @@ class StartViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-<<<<<<< HEAD
-        
+    
         self.goToFirstState()
-=======
 
-
->>>>>>> 9e68a009d36728c82b159e1da6455809b3a27fd7
     }
     
     override func viewWillAppear(_ animated: Bool) {
@@ -39,11 +35,7 @@ class StartViewController: UIViewController {
        
         
         self.view = GameMainView(frame: UIScreen.main.bounds)
-<<<<<<< HEAD
-        
-=======
 
->>>>>>> 9e68a009d36728c82b159e1da6455809b3a27fd7
         mainView.gameboardView.onSelectPosition = { [weak self] position in
             guard let self = self else { return }
             
