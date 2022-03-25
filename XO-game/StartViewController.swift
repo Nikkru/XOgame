@@ -14,6 +14,8 @@ class StartViewController: UIViewController {
     
     private let gameboard = Gameboard()
     
+    private lazy var referee = Referee(gameboard: gameboard)
+    
     private var currentState: GameStateProtocol! {
         didSet { self.currentState.begin()
         }
@@ -56,6 +58,11 @@ class StartViewController: UIViewController {
         )
     }
     private func goToNextState() {
+        
+        if let winner = self.referee.determineWinner() {
+            self.currentState = GameEndedState(winner: winner, gameViewController: self)
+            return
+        }
         
         if let playerInputState = currentState as? PlayerInputState {
             self.currentState = PlayerInputState(
