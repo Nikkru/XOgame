@@ -46,6 +46,7 @@ class PlayerInputState: GameStateProtocol {
 //    MARK:- выставляет соответствующую отметку на игровом поле — крестик для первого игрока и нолик для второго
     public func addMark(at position: GameboardPosition) {
         
+//          проверка места на доске на возможность на размещение вью игрока
         guard let gameboardView = self.gameboardView,
               gameboardView.canPlaceMarkView(at: position) else { return }
         
@@ -57,8 +58,8 @@ class PlayerInputState: GameStateProtocol {
             markView = XView()
         case .second:
             markView = OView()
-            
         }
+        
         self.gameboard?.setPlayer(self.player, at: position)
         self.gameboardView?.placeMarkView(markView, at: position)
         self.isCompleted = true
