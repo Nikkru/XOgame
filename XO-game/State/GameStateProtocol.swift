@@ -8,11 +8,10 @@
 
 import Foundation
 
-protocol GameState {
+protocol GameStateProtocol {
     
 var isCompleted: Bool { get }
-    
 func begin()
-    
 func addMark(at position: GameboardPosition)
+    
 }

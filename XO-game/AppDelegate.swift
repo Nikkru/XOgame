@@ -21,7 +21,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         } else {
             window?.backgroundColor = .white
         }
-        window?.rootViewController = StartViewController()
+        window?.rootViewController = GameViewController()
         
         return true
     }
