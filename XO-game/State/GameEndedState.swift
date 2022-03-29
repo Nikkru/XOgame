@@ -13,9 +13,9 @@ class GameEndedState: GameStateProtocol {
     let isCompleted = false
     let winner: Player?
     
-    private(set) weak var gameViewController: StartViewController?
+    private(set) weak var gameViewController: GameViewController?
     
-    init(winner: Player?, gameViewController: StartViewController) {
+    init(winner: Player?, gameViewController: GameViewController) {
         self.winner = winner
         self.gameViewController = gameViewController
     }

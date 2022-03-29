@@ -14,12 +14,12 @@ class PlayerInputState: GameStateProtocol {
     
     let player: Player
     
-    private(set) weak var gameViewController: StartViewController?
+    private(set) weak var gameViewController: GameViewController?
     private(set) weak var gameboard: Gameboard?
     private(set) weak var gameboardView: GameboardView?
     
     init(player: Player,
-         gameViewController: StartViewController,
+         gameViewController: GameViewController,
          gameboard: Gameboard,
          gameboardView: GameboardView) {
         
