@@ -52,13 +52,13 @@ class ComputerInputState: InputStateProtocol {
     func begin() {
         
         switch self.player {
-            
         case .first:
             self.gameViewController?.mainView.firstPlayerTurnLabel.isHidden = false
             self.gameViewController?.mainView.secondPlayerTurnLabel.isHidden = true
         case .second:
             self.gameViewController?.mainView.firstPlayerTurnLabel.isHidden = true
-            self.gameViewController?.mainView.secondPlayerTurnLabel.isHidden = false }
+            self.gameViewController?.mainView.secondPlayerTurnLabel.isHidden = false
+        }
         self.gameViewController?.mainView.winnerLabel.isHidden = true
     }
     
@@ -78,7 +78,7 @@ class ComputerInputState: InputStateProtocol {
         guard let gameboardView = self.gameboardView,
               gameboardView.canPlaceMarkView(at: position) else { return }
         gameboard?.setPlayer(player, at: position)
-        gameboardView.placeMarkView(markView, at: position)
+        self.gameboardView?.placeMarkView(markView, at: position)
         
         self.isCompleted = true
     }

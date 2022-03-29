@@ -16,8 +16,7 @@ class GameViewController: UIViewController {
     private let gameboard = Gameboard()
     private lazy var referee = Referee(gameboard: gameboard)
     private var inputStates: [Player: InputStateProtocol] = [:]
-    private var gameboardView: GameboardView!
-    
+
     private var currentState: GameStateProtocol! {
         didSet { self.currentState.begin()
         }
@@ -28,7 +27,8 @@ class GameViewController: UIViewController {
         super.viewDidLoad()
         
         setInputStates()
-        goToFirstState()
+        startNewGame()
+//        goToFirstState()
     }
     
     override func viewWillAppear(_ animated: Bool) {
@@ -56,12 +56,12 @@ class GameViewController: UIViewController {
             player: Player.first,
             gameViewController: self,
             gameboard: gameboard,
-            gameboardView: gameboardView)
+            gameboardView: mainView.gameboardView)
         inputStates[Player.second] = PlayerInputState(
             player: Player.second,
             gameViewController: self,
             gameboard: gameboard,
-            gameboardView: gameboardView)
+            gameboardView: mainView.gameboardView)
     }
     
     private func setHumanComputerStates() {
@@ -70,12 +70,12 @@ class GameViewController: UIViewController {
             player: Player.first,
             gameViewController: self,
             gameboard: gameboard,
-            gameboardView: gameboardView)
+            gameboardView: mainView.gameboardView)
         inputStates[Player.second] = ComputerInputState(
             player: Player.second,
             gameViewController: self,
             gameboard: gameboard,
-            gameboardView: gameboardView)
+            gameboardView: mainView.gameboardView)
     }
     
     private func setInputStates() {
@@ -83,6 +83,20 @@ class GameViewController: UIViewController {
             setHumanComputerStates()
         } else {
             setHumanHumanStates()
+        }
+    }
+    
+    private func startNewGame() {
+        mainView.gameboardView.clear()
+        gameboard.clear()
+        goToFirstState()
+        
+        mainView.gameboardView.onSelectPosition = { [weak self] position in
+            guard let self = self else { return }
+            self.currentState.addMark(at: position)
+            if self.currentState.isCompleted {
+                self.goToNextState()
+            }
         }
     }
     
@@ -109,13 +123,13 @@ class GameViewController: UIViewController {
             currentState = inputStates[currentInputState.player.next]
             currentState.isCompleted = false
             if currentState is ComputerInputState {
-                gameboardView.onSelectPosition = nil
+                mainView.gameboardView.onSelectPosition = nil
                 currentState.addMark(at: nil)
                 if currentState.isCompleted {
                     goToNextState()
                 }
             } else {
-                gameboardView.onSelectPosition = { [weak self] position in
+                mainView.gameboardView.onSelectPosition = { [weak self] position in
                     guard let self = self else { return }
                     self.currentState.addMark(at: position)
                     if self.currentState.isCompleted {
