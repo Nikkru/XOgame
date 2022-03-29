@@ -10,7 +10,7 @@ import Foundation
 
 class GameEndedState: GameStateProtocol {
     
-    let isCompleted = false
+    var isCompleted = false
     let winner: Player?
     
     private(set) weak var gameViewController: GameViewController?
@@ -33,7 +33,7 @@ class GameEndedState: GameStateProtocol {
         self.gameViewController?.mainView.secondPlayerTurnLabel.isHidden = true
     }
     
-    func addMark(at position: GameboardPosition) { }
+    func addMark(at position: GameboardPosition?) {}
     
     private func winnerName(from winner: Player) -> String {
         

@@ -16,15 +16,19 @@ public final class Gameboard {
     
     // MARK: - public
     
-    public func setPlayer(_ player: Player, at position: GameboardPosition) {
+     func setPlayer(_ player: Player, at position: GameboardPosition) {
         positions[position.column][position.row] = player
     }
     
-    public func clear() {
-        self.positions = initialPositions()
+     func clear() {
+        positions = initialPositions()
     }
     
-    public func contains(player: Player, at positions: [GameboardPosition]) -> Bool {
+    func getPositions() -> [[Player?]] {
+        return positions
+    }
+    
+     func contains(player: Player, at positions: [GameboardPosition]) -> Bool {
         for position in positions {
             guard contains(player: player, at: position) else {
                 return false
@@ -33,7 +37,7 @@ public final class Gameboard {
         return true
     }
     
-    public func contains(player: Player, at position: GameboardPosition) -> Bool {
+     func contains(player: Player, at position: GameboardPosition) -> Bool {
         let (column, row) = (position.column, position.row)
         return positions[column][row] == player
     }

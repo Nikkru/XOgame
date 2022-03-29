@@ -8,9 +8,9 @@
 
 import Foundation
 
-class PlayerInputState: GameStateProtocol {
-    
-    private(set) var isCompleted = false
+class PlayerInputState: InputStateProtocol {
+
+    var isCompleted = false
     
     let player: Player
     
@@ -44,8 +44,10 @@ class PlayerInputState: GameStateProtocol {
         self.gameViewController?.mainView.winnerLabel.isHidden = true }
     
 //    MARK:- выставляет соответствующую отметку на игровом поле — крестик для первого игрока и нолик для второго
-    public func addMark(at position: GameboardPosition) {
+    public func addMark(at position: GameboardPosition?) {
         
+        guard let position = position else { return }
+
 //          проверка места на доске на возможность на размещение вью игрока
         guard let gameboardView = self.gameboardView,
               gameboardView.canPlaceMarkView(at: position) else { return }
