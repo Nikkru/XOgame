@@ -17,18 +17,18 @@ class GameViewController: UIViewController {
     private lazy var referee = Referee(gameboard: gameboard)
     private var inputStates: [Player: InputStateProtocol] = [:]
 
+    private var humanOreComputer = true
     private var currentState: GameStateProtocol! {
         didSet { self.currentState.begin()
         }
     }
-    var playMode: PlayMode? = .computer
+    var playMode: PlayMode?
     
     override func viewDidLoad() {
         super.viewDidLoad()
         
         setInputStates()
         startNewGame()
-//        goToFirstState()
     }
     
     override func viewWillAppear(_ animated: Bool) {
@@ -45,7 +45,7 @@ class GameViewController: UIViewController {
                 self.goToNextState() }
         }
         
-        mainView.onAddGameAction = { [weak self] in
+        mainView.onAddGameButtonAction = { [weak self] in
             self?.addRestartButtonAction()
         }
     }
@@ -105,6 +105,7 @@ class GameViewController: UIViewController {
         currentState = inputStates[.first]
         currentState.isCompleted = false
     }
+    
     private func goToNextState() {
         
         if let winner = self.referee.determineWinner() {
@@ -138,20 +139,26 @@ class GameViewController: UIViewController {
                 }
             }
         }
-//        if let playerInputState = currentState as? PlayerInputState {
-//            self.currentState = PlayerInputState(
-//                player: playerInputState.player.next,
-//                gameViewController: self,
-//                gameboard: gameboard,
-//                gameboardView: mainView.gameboardView
-//            )
-//        }
     }
     
     func addRestartButtonAction() {
-        
         mainView.gameboardView.clear()
         gameboard.clear()
-        goToFirstState()
+//        goToFirstState()
+        startNewGame()
     }
+    
+//    func addSwitchComputerHumanAction() {
+//        humanOreComputer = !humanOreComputer
+//        addRestartButtonAction()
+//
+//        if humanOreComputer {
+//            mainView.humanSwitchLabel.text = "Now you're plaing with COMPUTER"
+//            playMode = .computer
+//        } else {
+//            mainView.humanSwitchLabel.text = "Now you're plaing with HUMAN"
+//            playMode = .human
+//        }
+//
+//    }
 }

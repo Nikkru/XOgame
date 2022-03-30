@@ -11,8 +11,7 @@ import UIKit
 final class GameMainView: UIView {
     
     //    Clogure для добавления target во viewController
-    var onAddGameAction: (() -> Void)?
-
+    var onAddGameButtonAction: (() -> Void)?
     
     //    MARK: - LifeCycle
     override init(frame: CGRect) {
@@ -91,6 +90,7 @@ final class GameMainView: UIView {
         return label
     }()
     
+
     var gameboardView: GameboardView = {
         let view = GameboardView()
         if #available(iOS 13.0, *) {
@@ -107,7 +107,7 @@ final class GameMainView: UIView {
             self.gameboardView.placeMarkView(XView(), at: position)
         }
     }
-    
+    //    MARK: - метод загрузки представлений на супервью
     private func setupViews() {
         addSubview(winnerLabel)
         addSubview(secondPlayerTurnLabel)
@@ -116,6 +116,7 @@ final class GameMainView: UIView {
         addSubview(gameboardView)
     }
     
+    //    MARK: - метод загрузки констрейнтов представлений
     private func setupConstraints() {
         setFirstPlayerTurnLabelConstraints()
         setSecondPlayerTurnLabelConstraints()
@@ -124,8 +125,7 @@ final class GameMainView: UIView {
         setRestartButtonConstraints()
     }
     
-//    MARK: - Настраиваем констрейнты
-    
+    //    MARK: - Настраиваем констрейнты    
     private func setFirstPlayerTurnLabelConstraints() {
         
         firstPlayerTurnLabel.translatesAutoresizingMaskIntoConstraints = false
@@ -179,10 +179,12 @@ final class GameMainView: UIView {
     }
     
     func addAction() {
-        restartButton.addTarget(self, action: #selector(self.addActionRestartButtonPressed), for: .touchUpInside)
+        restartButton.addTarget(self,
+                                action: #selector(self.addActionRestartButtonPressed),
+                                for: .touchUpInside)
     }
     
     @objc func addActionRestartButtonPressed() {
-        onAddGameAction?()
+        onAddGameButtonAction?()
     }
 }
