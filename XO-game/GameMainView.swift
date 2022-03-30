@@ -11,8 +11,7 @@ import UIKit
 final class GameMainView: UIView {
     
     //    Clogure для добавления target во viewController
-    var onAddRestartButtonAction: (() -> Void)?
-
+    var onAddGameButtonAction: (() -> Void)?
     
     //    MARK: - LifeCycle
     override init(frame: CGRect) {
@@ -20,8 +19,7 @@ final class GameMainView: UIView {
         self.backgroundColor = .white
         setupViews()
         setupConstraints()
-        
-        //        addActions()
+        addAction()
     }
     
     required init?(coder: NSCoder) {
@@ -29,11 +27,11 @@ final class GameMainView: UIView {
     }
     
     var restartButton: UIButton = {
-        let button = UIButton()
+        let button                = UIButton()
         button.setTitle("restart", for: .normal)
         button.setTitleColor((.white), for: .normal)
-        button.backgroundColor = .darkGray
-        button.titleLabel?.font = UIFont(name: "restart", size: 100)
+        button.backgroundColor    = .darkGray
+        button.titleLabel?.font   = UIFont(name: "restart", size: 100)
         button.layer.cornerRadius = 10
         return button
     }()
@@ -92,6 +90,7 @@ final class GameMainView: UIView {
         return label
     }()
     
+
     var gameboardView: GameboardView = {
         let view = GameboardView()
         if #available(iOS 13.0, *) {
@@ -108,7 +107,7 @@ final class GameMainView: UIView {
             self.gameboardView.placeMarkView(XView(), at: position)
         }
     }
-    
+    //    MARK: - метод загрузки представлений на супервью
     private func setupViews() {
         addSubview(winnerLabel)
         addSubview(secondPlayerTurnLabel)
@@ -117,6 +116,7 @@ final class GameMainView: UIView {
         addSubview(gameboardView)
     }
     
+    //    MARK: - метод загрузки констрейнтов представлений
     private func setupConstraints() {
         setFirstPlayerTurnLabelConstraints()
         setSecondPlayerTurnLabelConstraints()
@@ -125,8 +125,7 @@ final class GameMainView: UIView {
         setRestartButtonConstraints()
     }
     
-//    MARK: - Настраиваем констрейнты
-    
+    //    MARK: - Настраиваем констрейнты    
     private func setFirstPlayerTurnLabelConstraints() {
         
         firstPlayerTurnLabel.translatesAutoresizingMaskIntoConstraints = false
@@ -177,5 +176,15 @@ final class GameMainView: UIView {
             gameboardView.heightAnchor.constraint(equalTo: gameboardView.widthAnchor),
             gameboardView.bottomAnchor.constraint(lessThanOrEqualTo: restartButton.topAnchor, constant: -20)
         ])
+    }
+    
+    func addAction() {
+        restartButton.addTarget(self,
+                                action: #selector(self.addActionRestartButtonPressed),
+                                for: .touchUpInside)
+    }
+    
+    @objc func addActionRestartButtonPressed() {
+        onAddGameButtonAction?()
     }
 }
