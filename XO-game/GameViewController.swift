@@ -108,57 +108,58 @@ class GameViewController: UIViewController {
     
     private func goToNextState() {
         
-        if let winner = self.referee.determineWinner() {
-            self.currentState = GameEndedState(winner: winner, gameViewController: self)
-            return
-        }
-        
-        //  проверка условия для ничейного результата
-        if GameboardSize.fieldsCount == MarkView.stepsCount {
-            let gameEnded = GameEndedState(winner: nil, gameViewController: self)
-            gameEnded.begin()
-            return
-        }
-        
-        if let currentInputState = currentState as? InputStateProtocol {
-            currentState = inputStates[currentInputState.player.next]
-            currentState.isCompleted = false
-            if currentState is ComputerInputState {
-                mainView.gameboardView.onSelectPosition = nil
-                currentState.addMark(at: nil)
-                if currentState.isCompleted {
-                    goToNextState()
-                }
-            } else {
-                mainView.gameboardView.onSelectPosition = { [weak self] position in
-                    guard let self = self else { return }
-                    self.currentState.addMark(at: position)
+        delayWithSeconds(0.5) {
+            
+            if let winner = self.referee.determineWinner() {
+                self.currentState = GameEndedState(winner: winner, gameViewController: self)
+                return
+            }
+            
+            //  проверка условия для ничейного результата
+            if GameboardSize.fieldsCount == MarkView.stepsCount {
+                let gameEnded = GameEndedState(winner: nil, gameViewController: self)
+                gameEnded.begin()
+                return
+            }
+    //        ход компьютера
+            if let currentInputState = self.currentState as? InputStateProtocol {
+                self.currentState = self.inputStates[currentInputState.player.next]
+                self.currentState.isCompleted = false
+                if self.currentState is ComputerInputState {
+                    self.mainView.gameboardView.onSelectPosition = nil
+                    
+                    self.currentState.addMark(at: nil)
                     if self.currentState.isCompleted {
                         self.goToNextState()
+                    }
+                } else {
+                    self.mainView.gameboardView.onSelectPosition = { [weak self] position in
+                        guard let self = self else { return }
+                        self.currentState.addMark(at: position)
+                        if self.currentState.isCompleted {
+                            self.goToNextState()
+                        }
                     }
                 }
             }
         }
+  
     }
     
     func addRestartButtonAction() {
+        MarkView.stepsCount = 0
         mainView.gameboardView.clear()
         gameboard.clear()
 //        goToFirstState()
         startNewGame()
     }
+}
+
+extension GameViewController {
     
-//    func addSwitchComputerHumanAction() {
-//        humanOreComputer = !humanOreComputer
-//        addRestartButtonAction()
-//
-//        if humanOreComputer {
-//            mainView.humanSwitchLabel.text = "Now you're plaing with COMPUTER"
-//            playMode = .computer
-//        } else {
-//            mainView.humanSwitchLabel.text = "Now you're plaing with HUMAN"
-//            playMode = .human
-//        }
-//
-//    }
+    func delayWithSeconds(_ seconds: Double, completion: @escaping () -> ()) {
+        DispatchQueue.main.asyncAfter(deadline: .now() + seconds) {
+            completion()
+        }
+    }
 }
