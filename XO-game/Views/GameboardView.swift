@@ -9,13 +9,13 @@
 import UIKit
 
 // MARK: - GameboardView
-public class GameboardView: UIView {
+ class GameboardView: UIView {
     
     // MARK: - Public Properties
     
-    public var onSelectPosition: ((GameboardPosition) -> Void)?
+     var onSelectPosition: ((GameboardPosition) -> Void)?
     
-    public private(set) var markViewForPosition: [GameboardPosition: MarkView] = [:]
+     private(set) var markViewForPosition: [GameboardPosition: MarkView] = [:]
     
     // MARK: - Constants
     
@@ -41,11 +41,13 @@ public class GameboardView: UIView {
         }
         markViewForPosition = [:]
     }
-    
+ 
+    // MARK: - проверка состояния поля для хода игрока
     public func canPlaceMarkView(at position: GameboardPosition) -> Bool {
         return markViewForPosition[position] == nil
     }
     
+//     размещение вью игрока на доске
     public func placeMarkView(_ markView: MarkView, at position: GameboardPosition) {
         guard self.canPlaceMarkView(at: position) else { return }
         updateFrame(for: markView, at: position)
@@ -53,6 +55,7 @@ public class GameboardView: UIView {
         addSubview(markView)
     }
     
+//     удаление вью игрока с доски
     public func removeMarkView(at position: GameboardPosition) {
         guard let markView = markViewForPosition[position] else {
             return

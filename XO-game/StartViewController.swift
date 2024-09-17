@@ -2,76 +2,39 @@
 //  StartViewController.swift
 //  XO-game
 //
-//  Created by Nikkru on 23.03.2022.
+//  Created by Nikkru on 30.03.2022.
 //  Copyright © 2022 plasmon. All rights reserved.
 //
 
 import UIKit
 
 class StartViewController: UIViewController {
-    
-    var mainView: GameMainView { return self.view as! GameMainView }
-    
-    private let gameboard = Gameboard()
-    
-    private var currentState: GameStateProtocol! {
-        didSet { self.currentState.begin()
-        }
-    }
+
+    var mainView: StartMainView { return self.view as! StartMainView }
     
     override func viewDidLoad() {
         super.viewDidLoad()
-<<<<<<< HEAD
         
-        self.goToFirstState()
-=======
-
-
->>>>>>> 9e68a009d36728c82b159e1da6455809b3a27fd7
-    }
-    
-    override func viewWillAppear(_ animated: Bool) {
-
+        mainView.backgroundColor = .darkGray
+        
+        mainView.onAddComputerButtonAction = { [weak self] in
+            self?.gameModeSelection()
+        }
+        mainView.onAddHumanButtonAction = { [weak self] in
+            self?.gameModeSelection()
+        }
     }
     
     override func loadView() {
-        
-       
-        
-        self.view = GameMainView(frame: UIScreen.main.bounds)
-<<<<<<< HEAD
-        
-=======
-
->>>>>>> 9e68a009d36728c82b159e1da6455809b3a27fd7
-        mainView.gameboardView.onSelectPosition = { [weak self] position in
-            guard let self = self else { return }
-            
-//            self.mainView.gameboardView.placeMarkView(XView(), at: position)
-            self.currentState.addMark(at: position)
-            if self.currentState.isCompleted {
-            self.goToNextState() }
-        }
+        self.view = StartMainView(frame: UIScreen.main.bounds)
     }
     
-    private func goToFirstState() {
-        
-        self.currentState = PlayerInputState(
-            player: .first,
-            gameViewController: self,
-            gameboard: gameboard,
-            gameboardView: mainView.gameboardView
-        )
-    }
-    private func goToNextState() {
-        
-        if let playerInputState = currentState as? PlayerInputState {
-            self.currentState = PlayerInputState(
-                player: playerInputState.player.next,
-                gameViewController: self,
-                gameboard: gameboard,
-                gameboardView: mainView.gameboardView
-            )
-        }
+    func gameModeSelection() {
+        let rootViewController = GameViewController()
+        mainView.choiceHumanButton.isTouchInside
+        ? (rootViewController.playMode = .human)
+        : (rootViewController.playMode = .computer)
+//        rootViewController.modalPresentationStyle = .fullScreen
+        present(rootViewController, animated: true, completion: nil)
     }
 }

@@ -11,20 +11,24 @@ import UIKit
 public class MarkView: UIView {
     
     // MARK: - Properties
-    
-    public var lineColor: UIColor = .black
-    public var lineWidth: CGFloat = 7
-    public var textColor: UIColor = .red {
+
+    var lineColor: UIColor = .black
+    var lineWidth: CGFloat = 7
+    var textColor: UIColor = .red {
         didSet { label.textColor = textColor }
     }
     
-    public var turnNumbers: [Int] = [] {
+    //    MARK: - свойство класса счетчик инициализаций представлений - счетчик ходов для определения ничьи
+    static var stepsCount = 0
+   
+
+    var turnNumbers: [Int] = [] {
         didSet {
             label.text = turnNumbers.map { String($0) }.joined(separator: ",")
         }
     }
     
-    internal private(set) lazy var shapeLayer: CAShapeLayer = {
+     private(set) lazy var shapeLayer: CAShapeLayer = {
         let shapeLayer = CAShapeLayer()
         shapeLayer.fillColor = nil
         shapeLayer.lineWidth = lineWidth
@@ -33,7 +37,7 @@ public class MarkView: UIView {
         return shapeLayer
     }()
     
-    internal private(set) lazy var label: UILabel = {
+     private(set) lazy var label: UILabel = {
         let label = UILabel(frame: CGRect(x: 0, y: 0, width: bounds.width, height: 0.1 * bounds.height))
         label.textColor = textColor
         label.textAlignment = .right
@@ -52,15 +56,23 @@ public class MarkView: UIView {
         return label
     }()
     
+    static func stepsCountGen() -> Int {
+        stepsCount += 1
+        return stepsCount
+    }
+    
     // MARK: - Init
     
-    public init() {
-        super.init(frame: CGRect(origin: .zero,
+     init() {
+          MarkView.stepsCountGen()
+         super.init(frame: CGRect(origin: .zero,
                                  size: CGSize(width: 90, height: 90)))
     }
     
-    public required init?(coder aDecoder: NSCoder) {
-        super.init(coder: aDecoder)
+     required init?(coder aDecoder: NSCoder) {
+         MarkView.stepsCountGen()
+         super.init(coder: aDecoder)
+         
     }
     
     // MARK: - UIView
