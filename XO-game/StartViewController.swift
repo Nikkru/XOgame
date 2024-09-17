@@ -2,7 +2,7 @@
 //  StartViewController.swift
 //  XO-game
 //
-//  Created by Nikkru on 23.03.2022.
+//  Created by Nikkru on 30.03.2022.
 //  Copyright © 2022 plasmon. All rights reserved.
 //
 
@@ -10,21 +10,31 @@ import UIKit
 
 class StartViewController: UIViewController {
 
-    var mainView: GameMainView { return self.view as! GameMainView }
-    
-    
+    var mainView: StartMainView { return self.view as! StartMainView }
     
     override func viewDidLoad() {
         super.viewDidLoad()
-
-    }
-
-    override func loadView() {
-        self.view = GameMainView(frame: UIScreen.main.bounds)
         
-        mainView.gameboardView.onSelectPosition = { [weak self] position in
-            guard let self = self else { return }
-            self.mainView.gameboardView.placeMarkView(XView(), at: position)
+        mainView.backgroundColor = .darkGray
+        
+        mainView.onAddComputerButtonAction = { [weak self] in
+            self?.gameModeSelection()
         }
+        mainView.onAddHumanButtonAction = { [weak self] in
+            self?.gameModeSelection()
+        }
+    }
+    
+    override func loadView() {
+        self.view = StartMainView(frame: UIScreen.main.bounds)
+    }
+    
+    func gameModeSelection() {
+        let rootViewController = GameViewController()
+        mainView.choiceHumanButton.isTouchInside
+        ? (rootViewController.playMode = .human)
+        : (rootViewController.playMode = .computer)
+//        rootViewController.modalPresentationStyle = .fullScreen
+        present(rootViewController, animated: true, completion: nil)
     }
 }

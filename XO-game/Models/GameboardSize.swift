@@ -7,11 +7,17 @@
 //
 
 import Foundation
+import UIKit
 
-public struct GameboardSize {
+ struct GameboardSize {
     
-    public static let columns = 3
-    public static let rows = 3
+     static let columns = 3
+     static let rows = 3
+   
+//     вычисляемое значение игровой емкости поля
+    static var fieldsCount: Int = {
+         GameboardSize.columns * GameboardSize.rows
+     }()
     
     private init() { }
 }
